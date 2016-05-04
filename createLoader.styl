@@ -1,0 +1,62 @@
+vendors = official
+
+// These dont really have a real value (they're not MS or anything)
+// but they're used relativey
+$DURATION = 750
+$DELAY = 100
+
+percent(value, max)
+  _exact = value / max * 100
+  _rounded = round(_exact, 2)
+  unit(_rounded, '%')
+
+makeLoader(_animationPrefix, _dotsArray, _colorInactive, _colorActive)
+  $totalSteps = length(_dotsArray) - 1
+  $secondOffset = ($totalSteps * $DELAY) + $DURATION
+  $totalDuration = $secondOffset * 2
+
+  for _dotList, _index in _dotsArray
+
+    // _dotList may be just one dot, or a nested array of dots
+    // turns out styles doesnt really matter and even if we iterate
+    // over the one dot it will still work fine :)
+    for _dot in _dotList
+      _animationName = _animationPrefix + _dot
+
+      .{_dot}
+        transition-delay: 75ms * _index // for the hover 'easter egg'. Remove this.
+        animation-name: _animationName
+
+      @keyframes _animationName
+        // we multiple by one to ensure the value is coerced to a number
+        _firstStart = _index * $DELAY
+        _firstEnd = 1 * _firstStart + $DURATION
+
+        _secondStart = 1 * _firstStart + $secondOffset
+        _secondEnd = 1 * _firstEnd + $secondOffset
+
+        // We carefully craft the animation steps as percentages to simulate delay
+        // and duration _within_ a keyframe animation
+        //
+        // The timeline will look something like
+        //   [0%]-----[_firstStart]~~~~~[_firstEnd]-----[_secondStart]~~~~~[_secondEnd]-----[100%]
+        // Where the dashes indicate no visible change (the delay) and the tildes
+        // represent a visible transition of color (duration)
+
+        // Fake a 'delay' by keeping the color $inactive for as long as our delay is
+        // The color used here should be the default color of the dot
+        // at _firstStart% is when it will start transitioning to $active
+        {percent(_firstStart, $totalDuration)}
+          background: _colorInactive
+
+        // Then, after the desired duration of the animation, set the color to $active
+        {percent(_firstEnd, $totalDuration)}
+          background: _colorActive
+
+        // Just like before, fake a 'delay'. This seems the dot the $active color until we're ready to change it
+        {percent(_secondStart, $totalDuration)}
+          background: _colorActive
+
+        // Finally, transition back to the inactive state
+        {percent(_secondEnd, $totalDuration)}
+          background: _colorInactive

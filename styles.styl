@@ -1,0 +1,71 @@
+$bg = #111619
+$loader-size = 150px
+$dot-size = 25%
+$gutter = $dot-size / 3
+$color-inactive = #282D30
+$color-active = #E8E8E8
+
+@require 'createLoader.styl'
+
+//
+// Boring page setup
+* { box-sizing: border-box }
+
+html
+  background: $bg
+  min-height: 100vh
+  font-family: DIN, sans-serif
+  color: $color-active
+  padding: 0
+  margin: 0
+
+h2
+  margin: 0 0 50px 0;
+  font-weight: 500
+  text-align: center
+
+.page
+    display: flex
+    min-height: 100vh
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+//
+// Actual loader stuff
+.loader
+  width: $loader-size
+  height: $loader-size
+  font-size: 0
+  overflow: hidden
+  // padding: 15px
+  // background: rgba(black, .75)
+  // border-radius: 20px
+
+.dot
+  background: $color-inactive
+  width: $dot-size
+  height: $dot-size
+  margin: ($gutter / 2)
+  border-radius: 100%
+  display: inline-block
+  transition: all 200ms   // transition is for the hover effect
+  animation: 3s infinite; // animation is where the actual loader animation happens
+
+  // Square easter egg
+  .loader:hover &
+    width: $dot-size + $gutter
+    height: $dot-size + $gutter
+    margin: 0
+    border-radius: 0
+
+.style-classic
+  $dotsArray = dot1A, dot1B, dot1C, dot2A, dot2B, dot2C, dot3A, dot3B, dot3C
+  makeLoader('classic', $dotsArray, $color-inactive, $color-active)
+
+.style-diagonal
+  $_dotsSecond = dot2A, dot1B
+  $_dotsThird = dot3A, dot2B, dot1C
+  $_dotsFourth = dot3B, dot2C
+  $dotsArray = dot1A, $_dotsSecond, $_dotsThird, $_dotsFourth , dot3C
+  makeLoader('diagonal', $dotsArray, $color-inactive, $color-active)

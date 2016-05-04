@@ -1,0 +1,24 @@
+Duration: 750
+Delay:    100
+
+--------
+  0     Start: 0        End: 750
+  1     Start: 100      End: 850  ***
+  2     Start: 200      End: 950
+  3     Start: 300      End: 1050
+  4     Start: 400      End: 1150
+  5     Start: 500      End: 1250
+  6     Start: 600      End: 1350
+  7     Start: 700      End: 1450
+  8     Start: 800      End: 1550
+--------
+  0     Start: 1550      End: 2300
+  1     Start: 1650      End: 2400
+  2     Start: 1750      End: 2500
+  3     Start: 1850      End: 2600
+  4     Start: 1950      End: 2700
+  5     Start: 2050      End: 2800
+  6     Start: 2150      End: 2900
+  7     Start: 2250      End: 3000
+  8     Start: 2350      End: 3100
+--------
